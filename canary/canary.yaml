@@ -1,3 +1,7 @@
+# Demo of the canary deployment
+# this uses flagger to automatically shift the traffic from 
+# one version to another
+#
 apiVersion: flagger.app/v1beta1
 kind: Canary
 metadata:
