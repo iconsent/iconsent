@@ -1,0 +1,31 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: load
+  namespace: demo
+spec:
+  selector:
+    matchLabels:
+      app: load
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        linkerd.io/inject: enabled
+      labels:
+        app: load
+    spec:
+      containers:
+      - image: iconsent/slow_cooker
+        name: slow-cooker
+        env:
+          - name: QPS
+            value: "10"
+          - name: CONCURRENCY
+            value: "1"
+        command: ["/bin/sh", "-c"]
+        args:
+          - |-
+            /slow_cooker/slow_cooker -qps ${QPS} -concurrency ${CONCURRENCY} http://fe-demo-python:8000/ 
+

@@ -1,0 +1,14 @@
+# tkn task start hello --dry-run > taskRun-hello.yaml
+# apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  creationTimestamp: null
+  generateName: hello-run-
+  namespace: default
+spec:
+  resources: {}
+  serviceAccountName: ""
+  taskRef:
+    name: hello
+status:
+  podName: ""
