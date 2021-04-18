@@ -4,6 +4,8 @@ kind: Deployment
 metadata:
   name: load
   namespace: demo
+  labels:
+    app: slow-cooker
 spec:
   selector:
     matchLabels:

@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: springboot-demo
+  name: springboot-demo
+  namespace: demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: springboot-demo
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        linkerd.io/inject: enabled
+      creationTimestamp: null
+      labels:
+        app: springboot-demo
+    spec:
+      containers:
+      - image: iconsent/springboot-demo:1.0.1
+        name: springboot-demo
+        resources: {}
+        livenessProbe:
+          httpGet:
+            path: /properties
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 3
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: springboot-demo
+  name: springboot-demo
+spec:
+  ports:
+  - name: 8080-8080
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: springboot-demo
+  type: ClusterIP
+status:
+  loadBalancer: {}
+
