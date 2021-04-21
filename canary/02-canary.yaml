@@ -12,10 +12,19 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: springboot-demo
+
+    # HPA reference (optional)
+  autoscalerRef:
+    apiVersion: autoscaling/v2beta2
+    kind: HorizontalPodAutoscaler
+    name: springboot-demo-canary
+  # the maximum time in seconds for the canary deployment
+  # to make progress before it is rollback (default 600s)
+  progressDeadlineSeconds: 60
   service:
     port: 8080
   analysis:
-    interval: 10s
+    interval: 30s
     threshold: 5
     stepWeight: 10
     maxWeight: 100
@@ -27,4 +36,4 @@ spec:
     - name: request-duration
       thresholdRange:
         max: 500
-      interval: 1m
+      interval: 30s
